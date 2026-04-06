@@ -1,5 +1,5 @@
 
-# 📄 Documentação de Sistema: TechLab Manager
+# 📄 Documentação de Sistema: TechLab Manager - FRONT
 
 **Instituição:** EEEP Professor Sebastião Vasconcelos Sobrinho
 **Projeto:** Prática Integrada de Quality Assurance (QA) e Desenvolvimento
@@ -81,3 +81,51 @@ Critérios de qualidade técnica e preparativos essenciais para a automação de
 * **RNF03 - Responsividade:** A interface deve adaptar-se a resoluções de desktop e dispositivos móveis (simulando uso via tablet no laboratório).
 * **RNF04 - Isolamento de Testes (Setup/Teardown):** A equipe de automação deve configurar o Robot Framework para executar o comando `Execute JavaScript window.localStorage.clear()` antes de cada suíte de testes E2E, garantindo um ambiente limpo a cada execução.
 ```
+
+
+# ⚙️ TechLab Manager - API (Backend)
+
+Bem-vindo ao repositório da API do **TechLab Manager**. Este backend foi construído em Node.js com Express para servir como ambiente de testes na prática integrada de Quality Assurance (QA) do curso de Desenvolvimento de Sistemas da EEEP Professor Sebastião Vasconcelos Sobrinho.
+
+O objetivo desta API é fornecer endpoints funcionais para automação de testes (Postman/Robot Framework) e integração com o front-end.
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+* **Node.js**: Ambiente de execução.
+* **Express**: Micro-framework para criação das rotas HTTP.
+* **Swagger UI**: Interface gráfica interativa para documentação da API.
+
+> ⚠️ **Aviso sobre os Dados:** Esta é uma API *Mock* (simulada) para fins educacionais. O banco de dados opera "em memória" (usando variáveis). Toda vez que o servidor for reiniciado, os dados de equipamentos e empréstimos retornarão ao estado inicial de fábrica. Isso é ideal para garantir um ambiente limpo a cada nova rodada de testes.
+
+---
+
+## 🚀 Como Rodar o Projeto Localmente
+
+Para instalar e executar esta API na sua máquina, siga os passos abaixo. Você precisará ter o [Node.js](https://nodejs.org/) instalado.
+
+**1. Clone o repositório ou abra a pasta no terminal:**
+```bash
+# Se estiver usando Git
+git clone <url-deste-repositorio>
+cd techlab-api
+2. Instale as dependências do projeto:
+
+Bash
+npm install
+3. Inicie o servidor:
+
+Bash
+# Para iniciar o servidor no modo de desenvolvimento (reinicia automaticamente ao salvar)
+npm run dev
+
+# OU para iniciar no modo padrão
+npm start
+Se tudo der certo, você verá a seguinte mensagem no seu terminal:
+🚀 TechLab API rodando na porta 3000
+
+📖 Documentação da API (Swagger)
+A documentação completa dos Endpoints, Status Codes esperados e Payloads (Corpo da Requisição) está disponível de forma gráfica e interativa.
+
+Com o servidor rodando, abra o seu navegador e acesse:
+👉 http://localhost:3000/api-docs

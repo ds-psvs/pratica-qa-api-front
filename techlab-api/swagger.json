@@ -1,0 +1,157 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "TechLab Manager API",
+    "version": "1.0.0",
+    "description": "API Mockada para a prática de Quality Assurance (QA). Os dados são voláteis e resetam ao reiniciar o servidor."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Servidor Local"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Equipamentos",
+      "description": "Operações de CRUD"
+    },
+    {
+      "name": "Ações",
+      "description": "Empréstimo e Devolução"
+    }
+  ],
+  "paths": {
+    "/equipamentos": {
+      "get": {
+        "tags": ["Equipamentos"],
+        "summary": "Listar todos os equipamentos",
+        "responses": {
+          "200": { "description": "Lista de equipamentos retornada com sucesso." }
+        }
+      },
+      "post": {
+        "tags": ["Equipamentos"],
+        "summary": "Cadastrar novo equipamento",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": { "type": "string", "example": "Cabo HDMI 2m" },
+                  "patrimonio": { "type": "string", "example": "EEEP-CAB-001" },
+                  "categoria": { "type": "string", "example": "Acessórios" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Criado com sucesso." },
+          "400": { "description": "Erro de validação (campos vazios ou patrimônio duplicado)." }
+        }
+      }
+    },
+    "/equipamentos/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "integer" }
+        }
+      ],
+      "get": {
+        "tags": ["Equipamentos"],
+        "summary": "Buscar equipamento por ID",
+        "responses": {
+          "200": { "description": "Equipamento encontrado." },
+          "404": { "description": "Equipamento não encontrado." }
+        }
+      },
+      "put": {
+        "tags": ["Equipamentos"],
+        "summary": "Editar equipamento",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": { "type": "string", "example": "Cabo HDMI 5m" },
+                  "categoria": { "type": "string", "example": "Acessórios" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Atualizado com sucesso." },
+          "400": { "description": "Campos obrigatórios faltando." },
+          "404": { "description": "Equipamento não encontrado." }
+        }
+      },
+      "delete": {
+        "tags": ["Equipamentos"],
+        "summary": "Excluir equipamento",
+        "responses": {
+          "204": { "description": "Excluído com sucesso (Sem conteúdo)." },
+          "404": { "description": "Equipamento não encontrado." }
+        }
+      }
+    },
+    "/equipamentos/{id}/emprestar": {
+      "post": {
+        "tags": ["Ações"],
+        "summary": "Registrar empréstimo",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "responsavel_atual": { "type": "string", "example": "João da Silva" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Empréstimo realizado." },
+          "400": { "description": "Equipamento já emprestado ou nome inválido." },
+          "404": { "description": "Equipamento não encontrado." }
+        }
+      }
+    },
+    "/equipamentos/{id}/devolver": {
+      "post": {
+        "tags": ["Ações"],
+        "summary": "Registrar devolução",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Devolução realizada." },
+          "404": { "description": "Equipamento não encontrado." }
+        }
+      }
+    }
+  }
+}
