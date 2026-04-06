@@ -110,12 +110,10 @@ Para instalar e executar esta API na sua máquina, siga os passos abaixo. Você 
 git clone <url-deste-repositorio>
 cd techlab-api
 2. Instale as dependências do projeto:
-
-Bash
 npm install
-3. Inicie o servidor:
+npm install swagger-ui-express
 
-Bash
+3. Inicie o servidor:
 # Para iniciar o servidor no modo de desenvolvimento (reinicia automaticamente ao salvar)
 npm run dev
 
@@ -129,4 +127,4 @@ A documentação completa dos Endpoints, Status Codes esperados e Payloads (Corp
 
 Com o servidor rodando, abra o seu navegador e acesse:
 👉 http://localhost:3000/api-docs
-
+```
