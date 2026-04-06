@@ -80,8 +80,8 @@ Critérios de qualidade técnica e preparativos essenciais para a automação de
 * **RNF02 - Feedback Visual (UX):** Ações de sucesso (cadastro, edição, empréstimo, exclusão) devem gerar um alerta visual tipo *Toast* na tela por 3 segundos. Os testes automatizados validarão a exibição destes alertas.
 * **RNF03 - Responsividade:** A interface deve adaptar-se a resoluções de desktop e dispositivos móveis (simulando uso via tablet no laboratório).
 * **RNF04 - Isolamento de Testes (Setup/Teardown):** A equipe de automação deve configurar o Robot Framework para executar o comando `Execute JavaScript window.localStorage.clear()` antes de cada suíte de testes E2E, garantindo um ambiente limpo a cada execução.
-```
 
+---
 
 # ⚙️ TechLab Manager - API (Backend)
 
@@ -129,3 +129,4 @@ A documentação completa dos Endpoints, Status Codes esperados e Payloads (Corp
 
 Com o servidor rodando, abra o seu navegador e acesse:
 👉 http://localhost:3000/api-docs
+
