@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechLab Manager</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div id="toast" data-testid="toast-message" class="toast hidden"></div>
+
+    <section id="login-view" class="view-section active">
+        <div class="login-card positivus-box">
+            <h1>TechLab Manager</h1>
+            <p>Acesso Restrito</p>
+            <div class="form-group">
+                <input type="text" id="login-user" data-testid="input-login-user" placeholder="Usuário (admin)">
+            </div>
+            <div class="form-group">
+                <input type="password" id="login-pass" data-testid="input-login-pass" placeholder="Senha (12345)">
+            </div>
+            <button onclick="realizarLogin()" data-testid="btn-login" class="btn btn-primary">Entrar</button>
+            <p id="login-error" data-testid="msg-login-error" class="error-msg hidden">Credenciais inválidas!</p>
+        </div>
+    </section>
+
+    <section id="dashboard-view" class="view-section hidden">
+        <header class="positivus-header">
+            <h2>TechLab Manager</h2>
+            <button onclick="realizarLogout()" data-testid="btn-logout" class="btn btn-secondary">Sair</button>
+        </header>
+
+        <main class="container">
+            <div class="metrics-container">
+                <div class="metric-card positivus-box">
+                    <h3>Total Equipamentos</h3>
+                    <p id="metric-total" data-testid="metric-total">0</p>
+                </div>
+                <div class="metric-card positivus-box">
+                    <h3>Disponíveis</h3>
+                    <p id="metric-disponiveis" data-testid="metric-disponiveis" class="text-green">0</p>
+                </div>
+                <div class="metric-card positivus-box">
+                    <h3>Emprestados</h3>
+                    <p id="metric-emprestados" data-testid="metric-emprestados" class="text-orange">0</p>
+                </div>
+            </div>
+
+            <div class="actions-bar">
+                <h3>Equipamentos</h3>
+                <button onclick="abrirModalCadastro()" data-testid="btn-novo-equipamento" class="btn btn-primary">+ Novo Equipamento</button>
+            </div>
+
+            <div class="filters-bar positivus-box">
+                <input type="text" id="search-input" data-testid="input-search" placeholder="🔍 Buscar por nome ou patrimônio...">
+                <select id="filter-categoria" data-testid="select-filter-categoria">
+                    <option value="Todos">Todas as Categorias</option>
+                    <option value="Computadores">Computadores</option>
+                    <option value="Robótica">Robótica</option>
+                    <option value="Acessórios">Acessórios</option>
+                </select>
+            </div>
+
+            <div class="table-container positivus-box">
+                <table data-testid="tabela-equipamentos">
+                    <thead>
+                        <tr>
+                            <th>Patrimônio</th>
+                            <th>Nome</th>
+                            <th>Categoria</th>
+                            <th>Status</th>
+                            <th>Responsável</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-body">
+                        </tbody>
+                </table>
+                <p id="empty-state" data-testid="msg-empty-state" class="hidden" style="text-align: center; padding: 20px;">Nenhum equipamento encontrado.</p>
+            </div>
+        </main>
+    </section>
+
+    <div id="modal-cadastro" class="modal hidden">
+        <div class="modal-content positivus-box">
+            <h3>Cadastrar Equipamento</h3>
+            <div class="form-group"><input type="text" id="cad-nome" data-testid="input-cad-nome" placeholder="Nome do Equipamento"></div>
+            <div class="form-group"><input type="text" id="cad-patrimonio" data-testid="input-cad-patrimonio" placeholder="Número de Patrimônio"></div>
+            <div class="form-group">
+                <select id="cad-categoria" data-testid="select-cad-categoria">
+                    <option value="">Selecione a Categoria...</option>
+                    <option value="Computadores">Computadores</option>
+                    <option value="Robótica">Robótica</option>
+                    <option value="Acessórios">Acessórios</option>
+                </select>
+            </div>
+            <p id="cad-error" data-testid="msg-cad-error" class="error-msg hidden"></p>
+            <div class="modal-actions">
+                <button onclick="fecharModais()" data-testid="btn-cancelar-cad" class="btn btn-secondary">Cancelar</button>
+                <button onclick="salvarEquipamento()" data-testid="btn-salvar-cad" class="btn btn-primary">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-edicao" class="modal hidden">
+        <div class="modal-content positivus-box">
+            <h3>Editar Equipamento</h3>
+            <input type="hidden" id="edit-id">
+            <div class="form-group">
+                <label>Patrimônio (Bloqueado)</label>
+                <input type="text" id="edit-patrimonio" data-testid="input-edit-patrimonio" disabled style="background-color: #eee;">
+            </div>
+            <div class="form-group"><input type="text" id="edit-nome" data-testid="input-edit-nome" placeholder="Nome do Equipamento"></div>
+            <div class="form-group">
+                <select id="edit-categoria" data-testid="select-edit-categoria">
+                    <option value="Computadores">Computadores</option>
+                    <option value="Robótica">Robótica</option>
+                    <option value="Acessórios">Acessórios</option>
+                </select>
+            </div>
+            <p id="edit-error" data-testid="msg-edit-error" class="error-msg hidden"></p>
+            <div class="modal-actions">
+                <button onclick="fecharModais()" data-testid="btn-cancelar-edit" class="btn btn-secondary">Cancelar</button>
+                <button onclick="salvarEdicao()" data-testid="btn-salvar-edit" class="btn btn-primary">Atualizar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-emprestimo" class="modal hidden">
+        <div class="modal-content positivus-box">
+            <h3>Registrar Empréstimo</h3>
+            <p id="emp-nome-equipamento" class="highlight-text"></p>
+            <div class="form-group"><input type="text" id="emp-responsavel" data-testid="input-emp-responsavel" placeholder="Nome do Responsável (Mín. 3 letras)"></div>
+            <input type="hidden" id="emp-id-equipamento">
+            <p id="emp-error" data-testid="msg-emp-error" class="error-msg hidden"></p>
+            <div class="modal-actions">
+                <button onclick="fecharModais()" data-testid="btn-cancelar-emp" class="btn btn-secondary">Cancelar</button>
+                <button onclick="confirmarEmprestimo()" data-testid="btn-confirmar-emp" class="btn btn-primary">Emprestar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
